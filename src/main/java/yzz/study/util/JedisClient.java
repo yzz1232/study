@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.util.SafeEncoder;
 
 /**
  * jedis 工具类
@@ -30,7 +31,7 @@ public class JedisClient {
 		return jedisPool.getResource();
 	}
 	
-	public String set(String key,String value,TimeUnit timeUnit,long expireTime){
+	public <T> String set(String key,T value,TimeUnit timeUnit,long expireTime){
 		
 		String unit = "";
 		
@@ -41,11 +42,13 @@ public class JedisClient {
 		}else{
 			throw new RuntimeException("");
 		}
-		return getResource().set(key, value, RedisEnum.NX.getCode(), unit, expireTime);
+		return getResource().set(SafeEncoder.encode(key), SerializeUtils.serialize(value), SafeEncoder.encode(RedisEnum.NX.getCode()), SafeEncoder.encode(unit), expireTime);
 	}
 	
-	public String get(String key){
-		return getResource().get(key);
+	@SuppressWarnings("unchecked")
+	public <T> T get(String key){
+		Object result = SerializeUtils.deserialize(getResource().get(SafeEncoder.encode(key)));
+		return (T) result;
 	}
 	
 	

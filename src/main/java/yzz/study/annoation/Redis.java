@@ -16,5 +16,13 @@ public @interface Redis {
 	
 	TimeUnit unit() default TimeUnit.MILLISECONDS;
 	
-	String type();
+	Type type() default Type.SELECT;
+	
+	
+	static enum Type{
+		SELECT,
+		INSERT,
+		UPDATE,
+		DELETE;
+	}
 }
