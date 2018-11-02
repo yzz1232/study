@@ -1,0 +1,34 @@
+server:
+  port: 9050
+
+spring:
+  redis:
+   host: daddress.redis.360fengdai.com
+   port: 6479
+   timeout: 5000
+   password: 22pBD7.dubbo
+   database: 6
+   
+datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://daddress.db.360fengdai.com:3306/fengdai_thirdparty?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: kse20429hfds23240azxws
+    druid:
+      maxActive: 500
+      initialSize: 5
+      minIdle: 5
+      maxWait: 60000
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 35
+      validationQuery:  select 1
+      testOnBorrow: false
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 60000  #（毫秒）
+      minEvictableIdleTimeMillis: 25200000   #（毫秒）
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800    #设置成你服务中service的最长运行时间（单位秒）
+      logAbandoned: true
+      filters: mergeStat
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=6000
